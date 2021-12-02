@@ -1,8 +1,11 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/masonlapine/.oh-my-zsh"
+
+# Must change this based on where oh-my-zsh is installed
+export ZSH="/home/mason/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -123,7 +126,7 @@ linestart () {
 }
 newline=$'\n'
 bgwhite="$bg[white]%f"
-PROMPT="$(linestart)$(left_triangle)%K{#363535}%F{%(0?.green.red)}%B 💀 MASON 💀 %k%K{#D83925}$(right_triangle_first) %f%F{white}%d %f%k%K{#C17898}$(right_triangle_secondary)%F{#363535} %t %k$(right_third)%f%F{cyan}${newline}╰─$%f%b "
+PROMPT="$(linestart)$(left_triangle)%K{#363535}%F{%(0?.green.red)}%B  MASON  %k%K{#D83925}$(right_triangle_first) %f%F{white}%d %f%k%K{#C17898}$(right_triangle_secondary)%F{#363535} %t %k$(right_third)%f%F{cyan}${newline}╰─$%f%b "
 alias mysql="/usr/local/mysql/bin/mysql -u root -p -v"
 alias neofetch="neofetch --source ~/.config/punisher"
 neofetch
