@@ -1,3 +1,5 @@
+# Fig pre block. Keep at the top of this file.
+[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -70,7 +72,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-syntax-highlighting zsh-autosuggestions)
+plugins=(git zsh-syntax-highlighting) #zsh-autosuggestions
 
 source $ZSH/oh-my-zsh.sh
 
@@ -123,15 +125,59 @@ linestart () {
 }
 newline=$'\n'
 bgwhite="$bg[white]%f"
-PROMPT="$(linestart)$(left_triangle)%K{#363535}%F{%(0?.green.red)}%B 💀 MASON 💀 %k%K{#D83925}$(right_triangle_first) %f%F{white}%d %f%k%K{#C17898}$(right_triangle_secondary)%F{#363535} %t %k$(right_third)%f%F{cyan}${newline}╰─$%f%b "
+PROMPT="$(linestart)$(left_triangle)%K{#363535}%F{%(0?.green.red)}%B 🪨  TheStonePine 🌲 %k%K{#D83925}$(right_triangle_first) %f%F{white}%d %f%k$(right_triangle_secondary)%F{cyan}${newline}╰─$%f%b "
 alias mysql="/usr/local/mysql/bin/mysql -u root -p -v"
-alias neofetch="neofetch --source ~/.config/punisher"
+#alias neofetch="neofetch --size 300px --iterm2 ~/.config/skull.jpg"
 neofetch
 CLASSPATH=.:/Users/masonlapine/Classes:/Users/masonlapine/Classes/
 export CLASSPATH
 export PATH="$PATH:/Users/masonlapine/flutter/bin"
 alias oneliner="tr '\n' '  ' < $1"
 alias gam="/Users/masonlapine/bin/gamadv-xtd3/gam"
-alias thisyear="cd ~/OneDrive/Documents/College/RIT/YEAR\ 3/"
+alias thisyear="cd ~/OneDrive/Documents/College/RIT/YEAR\ 4/Semester\ 2"
 alias phpmetrics="php ~/.composer/vendor/phpmetrics/phpmetrics/bin/phpmetrics"
-alias java16="export JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-16.jdk/Contents/Home/bin/"
+alias java17="export JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home"
+alias java8="export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_321.jdk/Contents/Home"
+alias brolookup="mysql -u doadmin -pAVNS_lo7JAsD_ynOcNo-dtYt -h db-mysql-nyc1-04453-do-user-4259287-0.b.db.ondigitalocean.com -P 25060 sigmachi"
+alias psaux='ps aux | grep -v grep | grep -i'
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+alias dedockify="docker run -v /var/run/docker.sock:/var/run/docker.sock --rm mrhavens/dedockify"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
+# JINA_CLI_BEGIN
+
+## autocomplete
+if [[ ! -o interactive ]]; then
+    return
+fi
+
+compctl -K _jina jina
+
+_jina() {
+  local words completions
+  read -cA words
+
+  if [ "${#words}" -eq 2 ]; then
+    completions="$(jina commands)"
+  else
+    completions="$(jina completions ${words[2,-2]})"
+  fi
+
+  reply=(${(ps:
+:)completions})
+}
+
+# session-wise fix
+ulimit -n 4096
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+
+# JINA_CLI_END
+
+# Fig post block. Keep at the bottom of this file.
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
