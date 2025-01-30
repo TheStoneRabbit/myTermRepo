@@ -4,7 +4,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/masonlapine/.oh-my-zsh"
+export ZSH="/Users/mlapine/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -29,7 +29,7 @@ ZSH_THEME="robbyrussell"
 # DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
+DISABLE_UPDATE_PROMPT="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
@@ -72,7 +72,6 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-syntax-highlighting) #zsh-autosuggestions
 
 source $ZSH/oh-my-zsh.sh
 
@@ -114,7 +113,7 @@ right_third() {
 	echo "%F{#C17898}\uE0B0%f"
 }
 right_triangle_first() {
-   echo "%F{#363535}\uE0B0%f"
+  echo "%F{#363535}\uE0B0%f"
 }
 right_triangle_secondary() {
 	echo "%F{#D83925}\uE0B0%f"
@@ -123,61 +122,40 @@ right_triangle_secondary() {
 linestart () {
 	echo "%F{cyan}\u256D\U2500%f"
 }
-newline=$'\n'
-bgwhite="$bg[white]%f"
-PROMPT="$(linestart)$(left_triangle)%K{#363535}%F{%(0?.green.red)}%B 🪨  TheStonePine 🌲 %k%K{#D83925}$(right_triangle_first) %f%F{white}%d %f%k$(right_triangle_secondary)%F{cyan}${newline}╰─$%f%b "
-alias mysql="/usr/local/mysql/bin/mysql -u root -p -v"
-#alias neofetch="neofetch --size 300px --iterm2 ~/.config/skull.jpg"
-neofetch
-CLASSPATH=.:/Users/masonlapine/Classes:/Users/masonlapine/Classes/
-export CLASSPATH
-export PATH="$PATH:/Users/masonlapine/flutter/bin"
-alias oneliner="tr '\n' '  ' < $1"
-alias gam="/Users/masonlapine/bin/gamadv-xtd3/gam"
-alias thisyear="cd ~/OneDrive/Documents/College/RIT/YEAR\ 4/Semester\ 2"
-alias phpmetrics="php ~/.composer/vendor/phpmetrics/phpmetrics/bin/phpmetrics"
-alias java17="export JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home"
-alias java8="export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_321.jdk/Contents/Home"
-alias brolookup="mysql -u doadmin -pAVNS_lo7JAsD_ynOcNo-dtYt -h db-mysql-nyc1-04453-do-user-4259287-0.b.db.ondigitalocean.com -P 25060 sigmachi"
-alias psaux='ps aux | grep -v grep | grep -i'
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-alias dedockify="docker run -v /var/run/docker.sock:/var/run/docker.sock --rm mrhavens/dedockify"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-
-# JINA_CLI_BEGIN
-
-## autocomplete
-if [[ ! -o interactive ]]; then
-    return
-fi
-
-compctl -K _jina jina
-
-_jina() {
-  local words completions
-  read -cA words
-
-  if [ "${#words}" -eq 2 ]; then
-    completions="$(jina commands)"
+right_triangle_third() {
+	echo "%F{#e6bb00}\uE0B0%f"
+}
+function git_branch_name()
+{
+  branch=$(git symbolic-ref HEAD 2> /dev/null | awk 'BEGIN{FS="/"} {print $NF}')
+  if [[ $branch == "" ]];
+  then
+    echo "no branch"
   else
-    completions="$(jina completions ${words[2,-2]})"
+    echo '('$branch')'
   fi
-
-  reply=(${(ps:
-:)completions})
+}
+git_hash() {
+  git log --pretty=format:"%h" -n 1 2> /dev/null
+}
+_update_prompt() {
+  if [[ -o interactive ]]; then
+    # ZLE is active; safe to use zle reset-prompt
+    zle && zle reset-prompt
+  else
+    # Non-interactive shell; no ZLE support
+    return
+  fi
 }
 
-# session-wise fix
-ulimit -n 4096
-export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
-
-# JINA_CLI_END
-
-# Fig post block. Keep at the bottom of this file.
-[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
+newline=$'\n'
+bgwhite="$bg[white]%f"
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd prm
+prm()
+{
+  full_prompt="$(linestart)$(left_triangle)%K{#363535}%F{%(0?.green.red)}%B 🪨 TheStoneRabbit 🐇 %k%K{#D83925}$(right_triangle_first) %f%F{white}%d %f%k%K{#e6bb00}$(right_triangle_secondary)%F{8}  %w %t  %f%k%K{13}$(right_triangle_third)%F{white} $(git_branch_name) $(git_hash) %f%k%F{13}$(reg_right)%f%F{cyan}${newline}╰─$%f%b "
+  PROMPT=$full_prompt
+}
+prm
+macchina
